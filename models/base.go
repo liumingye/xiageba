@@ -27,8 +27,7 @@ func Init() {
 	if dbport == "" {
 		dbport = "3306"
 	}
-	dsn := dbuser + ":" + dbpassword + "@tcp(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=utf8"
-	orm.DefaultTimeLoc = time.UTC
+	dsn := dbuser + ":" + dbpassword + "@tcp(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=utf8&loc=Local"
 	orm.MaxIdleConnections(100)
 	orm.MaxOpenConnections(100)
 	orm.ConnMaxLifetime(time.Hour * 6)
