@@ -12,4 +12,6 @@ func init() {
 	beego.Router("/s/?:text/page/?:page", &controllers.SearchController{})
 	beego.Router("/s/:keyword", &controllers.SearchController{})
 	beego.Router("/s/:keyword/:page", &controllers.SearchController{})
+	beego.Router("/r/yesterday", &controllers.RankController{}, "get:Yesterday")
+	beego.Router("/r/yesterday/:page", &controllers.RankController{}, "get:Yesterday")
 }

@@ -5,7 +5,7 @@
     <title>{{.Keyword}} 第{{.Page}}页 - 下歌吧 - 全网音乐 高品质MP3 在线免费下载 免费播放</title>
     <meta name="keywords" content="{{.Keyword}},下歌吧,下歌网,音乐下载,无损音乐,歌曲下载,高品质音乐,歌曲搜索,音乐免费下载,MP3下载,收费音乐免费下载,付费音乐免费下载,在线mp3下载网站"/>
     <meta name="description" content="{{.Keyword}} - 下歌吧在线音乐搜索，可以在线免费下载全网MP3付费歌曲、流行音乐、经典老歌等。曲库完整，更新迅速，试听流畅，支持高品质|无损音质">
-    {{template "header.html" .}}
+    {{template "header.tpl" .}}
 </head>
 
 <nav class="navbar navbar-expand navbar-light">
@@ -48,35 +48,12 @@
                 {{end}}
             </div>
 
-{{if gt .paginator.PageNums 1}}
-<nav aria-label="..." class="mt-2 d-flex justify-content-center">
-    <ul class="pagination pagination-sm">
-    {{if .paginator.HasPrev}}
-        <li class="page-item"><a class="page-link" href="/s/{{.Keyword}}/{{.paginator.PageLinkPrev}}">上页</a></li>
-    {{else}}
-        <li class="page-item disabled"><a class="page-link">上页</a></li>
-    {{end}}
-    {{range $index, $page := .paginator.Pages}}
-        <li class="page-item{{if $.paginator.IsActive .}} active{{end}}">
-            {{if ne $page 0}}
-            <a class="page-link" href="/s/{{$.Keyword}}/{{$.paginator.PageLink $page}}">{{$page}}</a>
-            {{else}}
-            <a class="page-link">...</a>
-            {{end}}
-        </li>
-    {{end}}
-    {{if .paginator.HasNext}}
-        <li class="page-item"><a class="page-link" href="/s/{{.Keyword}}/{{.paginator.PageLinkNext}}">下页</a></li>
-    {{else}}
-        <li class="page-item disabled"><a class="page-link">下页</a></li>
-    {{end}}
-    </ul>
-</nav>
-{{end}}
+
+{{template "paginator.tpl" .}}
 
         </div>
     </div>
 </div>
-{{template "footer.html" .}}
+{{template "footer.tpl" .}}
 </body>
 </html>

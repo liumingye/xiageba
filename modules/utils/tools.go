@@ -18,3 +18,16 @@ func ToInt64(value interface{}) (d int64, err error) {
 	}
 	return
 }
+
+// 格式化秒数为人类可读的字符串
+func FormatSecondsAgo(seconds float64) string {
+	if seconds < 60 {
+		return fmt.Sprintf("%.0f秒前", seconds)
+	} else if seconds < 3600 {
+		return fmt.Sprintf("%.0f分钟前", seconds/60)
+	} else if seconds < 86400 {
+		return fmt.Sprintf("%.0f小时前", seconds/3600)
+	} else {
+		return fmt.Sprintf("%.0f天前", seconds/86400)
+	}
+}

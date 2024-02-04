@@ -20,7 +20,7 @@ func (m *Music) TableName() string {
 	return TableName("music")
 }
 
-func FuzzySearchMusic(keyword string, page int, pageSize int) ([]*Music, int, error) {
+func (t *Music) FuzzySearchMusic(keyword string, page int, pageSize int) ([]*Music, int, error) {
 	o := orm.NewOrm()
 
 	var musics []*Music

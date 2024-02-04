@@ -20,7 +20,7 @@ func (c *MusicController) Get() {
 	// 将ID转换为整数
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
-		c.Abort("404")
+		c.Abort("500")
 	}
 
 	// 查询音乐信息

@@ -13,7 +13,7 @@ import (
 // Init registers the db driver, default database, and models in init.
 func Init() {
 	// need to register models in init
-	orm.RegisterModel(new(Music), new(Tag))
+	orm.RegisterModel(new(Music), new(Tag), new(SearchHistory))
 
 	// need to register db driver
 	orm.RegisterDriver("mysql", orm.DRMySQL)

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"music/models"
-	"music/modules/utils"
 	"strconv"
 	"strings"
 )
@@ -17,23 +16,25 @@ func (c *SearchController) Get() {
 	page := c.Ctx.Input.Param(":page")
 
 	if page == "" {
+		// 保存搜索词
+		go (&models.SearchHistory{}).AddSearchHistory(keyword)
 		page = "1"
 	}
 
 	// 将page转换为整数
 	pageInt, err := strconv.Atoi(page)
 	if err != nil {
-		c.Abort("404")
+		c.Abort("500")
 	}
 
 	trimKeyword := strings.TrimSpace(keyword)
 	if trimKeyword == "" {
-		c.Abort("404")
+		c.Abort("500")
 	}
 
 	var pageSize = 30
 
-	musics, total, _ := models.FuzzySearchMusic(trimKeyword, pageInt, pageSize)
+	musics, total, _ := (&models.Music{}).FuzzySearchMusic(trimKeyword, pageInt, pageSize)
 
 	c.Data["Musics"] = musics
 	c.Data["Keyword"] = keyword
@@ -45,10 +46,4 @@ func (c *SearchController) Get() {
 
 	// 设置模板名称
 	c.TplName = "search.tpl"
-}
-
-func (c *SearchController) SetPaginator(per int, nums int) *utils.Paginator {
-	p := utils.NewPaginator(c.Ctx, per, nums)
-	c.Data["paginator"] = p
-	return p
 }

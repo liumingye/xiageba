@@ -5,7 +5,7 @@
     <title>{{.Music.Name}} - {{.Music.Singer}} - mp3免费在线下载播放 - 下歌吧 - 全网音乐 高品质MP3 在线免费下载 免费播放</title>
     <meta name="keywords" content="{{.Music.Name}},{{.Music.Singer}},下歌吧,下歌网,音乐下载,无损音乐,歌曲下载,高品质音乐,歌曲搜索,音乐免费下载,MP3下载,收费音乐免费下载,付费音乐免费下载,在线mp3下载网站"/>
     <meta name="description" content="{{.Music.Name}} - {{.Music.Singer}}.mp3免费在线下载播放,下歌吧在线音乐搜索，可以在线免费下载全网MP3付费歌曲、流行音乐、经典老歌等。曲库完整，更新迅速，试听流畅，支持高品质|无损音质">
-    {{template "header.html" .}}
+    {{template "header.tpl" .}}
 </head>
 
 <nav class="navbar navbar-expand navbar-light">
@@ -121,7 +121,7 @@ function copyText(copyText) {
     </div>
 </div>
 
-{{template "footer.html" .}}
+{{template "footer.tpl" .}}
 
 </body>
 </html>

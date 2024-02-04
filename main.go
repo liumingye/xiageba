@@ -1,6 +1,7 @@
 package main
 
 import (
+	"music/modules/cache"
 	_ "music/routers"
 
 	"music/models"
@@ -9,6 +10,7 @@ import (
 )
 
 func init() {
+	cache.Init()
 	models.Init()
 	beego.BConfig.WebConfig.Session.SessionOn = true
 }
