@@ -53,39 +53,49 @@ func (p *Paginator) Page() int {
 }
 
 func (p *Paginator) Pages() []int {
-	if p.pageRange == nil && p.nums > 0 {
-		var pages []int
-		pageNums := p.PageNums()
-		page := p.Page()
-		switch {
-		case page >= pageNums-5 && pageNums > 8:
-			start := pageNums - 8
-			pages = make([]int, 9)
-			for i := range pages {
-				pages[i] = start + i
-			}
-		case page >= 7 && pageNums > 8:
-			start := page - 3
-			pages = make([]int, int(math.Min(7, float64(page+4+1))))
-			for i := range pages {
-				pages[i] = start + i
-			}
-		default:
-			pages = make([]int, int(math.Min(8, float64(pageNums))))
-			for i := range pages {
-				pages[i] = i + 1
-			}
-		}
-
-		if page >= 7 {
-			pages = append([]int{1, 2, 0}, pages...)
-		}
-		if page <= pageNums-6 {
-			pages = append(pages, 0, p.pageNums-1, p.pageNums)
-		}
-
-		p.pageRange = pages
+	if p.pageRange != nil || p.nums <= 0 {
+		return p.pageRange
 	}
+
+	pageNums := p.PageNums()
+	currentPage := p.Page()
+
+	// Define the edges based on the current page.
+	startEdge, endEdge := 1, pageNums
+	edgeDisplay := 2
+
+	// Calculate the window of pages around the current page.
+	startPage := max(startEdge, currentPage-2)
+	endPage := min(currentPage+2, pageNums)
+
+	pages := make([]int, 0, endEdge)
+
+	// Always include the start edge pages.
+	for i := startEdge; i <= min(edgeDisplay, pageNums); i++ {
+		pages = append(pages, i)
+	}
+
+	// Use ellipsis to indicate skipped pages between edges and middle pages.
+	if startPage > edgeDisplay+1 {
+		pages = append(pages, 0)
+	}
+
+	// Add the window of pages around the current page.
+	for i := max(startPage, edgeDisplay+1); i <= min(endPage, pageNums-edgeDisplay); i++ {
+		pages = append(pages, i)
+	}
+
+	// Use ellipsis to indicate skipped pages between middle pages and end edge.
+	if endPage < pageNums-edgeDisplay {
+		pages = append(pages, 0)
+	}
+
+	// Always include the end edge pages.
+	for i := max(pageNums-edgeDisplay+1, endPage+1); i <= endEdge; i++ {
+		pages = append(pages, i)
+	}
+
+	p.pageRange = pages
 	return p.pageRange
 }
 

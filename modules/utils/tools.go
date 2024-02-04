@@ -2,32 +2,44 @@ package utils
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 )
 
 // convert any numeric value to int64
-func ToInt64(value interface{}) (d int64, err error) {
+func ToInt64(value interface{}) (int64, error) {
 	val := reflect.ValueOf(value)
-	switch value.(type) {
-	case int, int8, int16, int32, int64:
-		d = val.Int()
-	case uint, uint8, uint16, uint32, uint64:
-		d = int64(val.Uint())
+	switch val.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return val.Int(), nil
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		u := val.Uint()
+		if u > math.MaxInt64 {
+			return 0, fmt.Errorf("uint value is too large to fit in int64")
+		}
+		return int64(u), nil
 	default:
-		err = fmt.Errorf("ToInt64 need numeric not `%T`", value)
+		return 0, fmt.Errorf("ToInt64 needs a numeric type, got `%T`", value)
 	}
-	return
 }
 
 // 格式化秒数为人类可读的字符串
 func FormatSecondsAgo(seconds float64) string {
-	if seconds < 60 {
-		return fmt.Sprintf("%.0f秒前", seconds)
-	} else if seconds < 3600 {
-		return fmt.Sprintf("%.0f分钟前", seconds/60)
-	} else if seconds < 86400 {
-		return fmt.Sprintf("%.0f小时前", seconds/3600)
-	} else {
-		return fmt.Sprintf("%.0f天前", seconds/86400)
+	timeUnits := []struct {
+		Threshold float64
+		Divisor   float64
+		Format    string
+	}{
+		{60, 1, "%.0f秒前"},
+		{3600, 60, "%.0f分钟前"},
+		{86400, 3600, "%.0f小时前"},
+		{math.MaxFloat64, 86400, "%.0f天前"}, // 使用math.MaxFloat64作为最后一个阈值
 	}
+
+	for _, unit := range timeUnits {
+		if seconds < unit.Threshold {
+			return fmt.Sprintf(unit.Format, seconds/unit.Divisor)
+		}
+	}
+	return "" // 或根据逻辑返回一个默认值
 }
