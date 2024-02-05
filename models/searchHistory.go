@@ -44,7 +44,7 @@ type SearchRank struct {
 
 // GetSearchRank 根据提供的页面、页面大小、开始日期和结束日期检索搜索排名。
 // 返回SearchRank数组、整数和错误。
-func (t *SearchHistory) GetSearchRank(page, pageSize int, startDate, endDate time.Time) ([]SearchRank, int, error) {
+func (t *SearchHistory) GetSearchRank(page, pageSize int, startDate, endDate time.Time, hasTotal bool) ([]SearchRank, int, error) {
 	o := orm.NewOrm()
 	var searchRanks []SearchRank
 
@@ -66,13 +66,15 @@ func (t *SearchHistory) GetSearchRank(page, pageSize int, startDate, endDate tim
 	}
 
 	// Count total number of search terms
-	var totalCount int
-	countQuery := `SELECT COUNT(DISTINCT search_term)
-                    FROM search_history
-                    WHERE search_timestamp >= ? AND search_timestamp < ?`
-	err = o.Raw(countQuery, startString, endString).QueryRow(&totalCount)
-	if err != nil {
-		return nil, 0, err
+	var totalCount int = 0
+	if hasTotal {
+		countQuery := `SELECT COUNT(DISTINCT search_term)
+						FROM search_history
+						WHERE search_timestamp >= ? AND search_timestamp < ?`
+		err = o.Raw(countQuery, startString, endString).QueryRow(&totalCount)
+		if err != nil {
+			return nil, 0, err
+		}
 	}
 
 	// Return the results along with the total count

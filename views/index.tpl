@@ -52,14 +52,16 @@
               <div class="col-5">排名</div>
               <div class="col-7">关键词</div>
             </div>
+            {{range $key, $val := .YesterdayRank}}
             <div class="row rank-td">
               <div class="col-5">
-                <i class="rank-no-0">1</i>
+                <i class="rank-no-0">{{plus $key 1}}</i>
               </div>
               <div class="col-7">
-                <a href="/s/周杰伦" class="song-title">周杰伦</a>
+                <a href="/s/{{$val.SearchTerm}}" class="song-title">{{$val.SearchTerm}}</a>
               </div>
             </div>
+            {{end}}
           </div>
         </div>
         <div class="col-lg-6 ps-lg-2 box-sizing-border mt-max-sm-3">
@@ -74,14 +76,16 @@
               <div class="col-5">排名</div>
               <div class="col-7">关键词</div>
             </div>
+            {{range $key, $val := .ThisWeekRank}}
             <div class="row rank-td">
               <div class="col-5">
-                <i class="rank-no-0">1</i>
+                <i class="rank-no-0">{{plus $key 1}}</i>
               </div>
               <div class="col-7">
-                <a href="/s/周杰伦" class="song-title">周杰伦</a>
+                <a href="/s/{{$val.SearchTerm}}" class="song-title">{{$val.SearchTerm}}</a>
               </div>
             </div>
+            {{end}}
           </div>
         </div>
       </div>
@@ -99,14 +103,16 @@
               <div class="col-5">排名</div>
               <div class="col-7">关键词</div>
             </div>
+            {{range $key, $val := .ThisMonthRank}}
             <div class="row rank-td">
               <div class="col-5">
-                <i class="rank-no-0">1</i>
+                <i class="rank-no-0">{{plus $key 1}}</i>
               </div>
               <div class="col-7">
-                <a href="/s/周杰伦" class="song-title">周杰伦</a>
+                <a href="/s/{{$val.SearchTerm}}" class="song-title">{{$val.SearchTerm}}</a>
               </div>
             </div>
+            {{end}}
           </div>
         </div>
         <div class="col-lg-6 ps-lg-2 box-sizing-border mt-max-sm-3">
@@ -121,14 +127,16 @@
               <div class="col-5">排名</div>
               <div class="col-7">关键词</div>
             </div>
+            {{range $key, $val := .LastMonthRank}}
             <div class="row rank-td">
               <div class="col-5">
-                <i class="rank-no-0">1</i>
+                <i class="rank-no-0">{{plus $key 1}}</i>
               </div>
               <div class="col-7">
-                <a href="/s/周杰伦" class="song-title">周杰伦</a>
+                <a href="/s/{{$val.SearchTerm}}" class="song-title">{{$val.SearchTerm}}</a>
               </div>
             </div>
+            {{end}}
           </div>
         </div>
       </div>
