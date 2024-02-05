@@ -56,7 +56,7 @@
             </div>
             <div class="d-flex flex-wrap">
                 {{range .Tags}}
-                    <a class="key-tag key-tag-bg{{.rand}}" href="/t/{{.name}}">{{.name}}</a>
+                    <a class="key-tag key-tag-bg{{random 1 7}}" href="/t/{{.name}}">{{.name}}</a>
                 {{end}}
             </div>
             {{end}}

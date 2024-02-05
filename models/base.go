@@ -11,7 +11,7 @@ import (
 )
 
 // Init registers the db driver, default database, and models in init.
-func Init() {
+func init() {
 	// need to register models in init
 	orm.RegisterModel(new(Music), new(Tag), new(SearchHistory))
 
@@ -28,6 +28,7 @@ func Init() {
 		dbport = "3306"
 	}
 	dsn := dbuser + ":" + dbpassword + "@tcp(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=utf8&loc=Local"
+	orm.DefaultTimeLoc = time.Local
 	orm.MaxIdleConnections(100)
 	orm.MaxOpenConnections(100)
 	orm.ConnMaxLifetime(time.Hour * 6)

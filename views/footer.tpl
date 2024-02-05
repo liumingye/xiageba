@@ -1,6 +1,8 @@
 <script>
 $(".header-search").submit(function () {
-    location.pathname = "/s/" + $('input[name="keyword"]').val()
+    var term = encodeURIComponent($('input[name="keyword"]').val().trim());
+    if(term === "") return false;
+    location.pathname = "/s/" + term;
     return false;
 })
 </script>

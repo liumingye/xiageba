@@ -33,7 +33,7 @@
         </div>
         <div class="d-flex flex-wrap">
           {{range .LatestSearchTerms}}
-          <a class="key-tag key-tag-bg4" href="/s/{{.SearchTerm}}">{{.SearchTerm}}<span>{{.SecondsAgo}}</span></a>
+          <a class="key-tag key-tag-bg{{random 1 7}}" href="/s/{{.SearchTerm}}">{{.SearchTerm}}<span>{{.SecondsAgo}}</span></a>
           {{end}}
         </div>
       </div>

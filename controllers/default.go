@@ -11,7 +11,7 @@ type MainController struct {
 func (c *MainController) Get() {
 	// 获取最新搜索词
 	searchHistoryModel := &models.SearchHistory{}
-	latestSearchTerms, err := searchHistoryModel.GetLatestSearchTerms(16)
+	latestSearchTerms, _, err := searchHistoryModel.GetLatestSearchTerms(1, 16)
 
 	if err != nil {
 		c.Abort("500")

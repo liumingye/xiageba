@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"reflect"
+	"unicode"
 )
 
 // convert any numeric value to int64
@@ -42,4 +43,15 @@ func FormatSecondsAgo(seconds float64) string {
 		}
 	}
 	return "" // 或根据逻辑返回一个默认值
+}
+
+// HanCounter to count the number of chinese character.
+func HanCounter(s string) int {
+	var count int // 0
+	for _, c := range s {
+		if unicode.Is(unicode.Han, c) {
+			count++
+		}
+	}
+	return count
 }

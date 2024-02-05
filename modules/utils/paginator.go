@@ -1,9 +1,9 @@
 package utils
 
 import (
+	"fmt"
 	"math"
 	"net/http"
-	"net/url"
 	"strconv"
 
 	"github.com/beego/beego/v2/server/web/context"
@@ -14,6 +14,7 @@ type Paginator struct {
 	Request     *http.Request
 	PerPageNums int
 	MaxPages    int
+	LinkFormat  string
 
 	nums      int64
 	pageRange []int
@@ -43,72 +44,48 @@ func (p *Paginator) SetNums(nums interface{}) {
 func (p *Paginator) Page() int {
 	page, _ := strconv.Atoi(p.Ctx.Input.Param(":page"))
 
-	if page > p.PageNums() {
-		page = p.PageNums()
-	}
-	if page <= 0 {
-		page = 1
-	}
+	page = int(math.Max(1, math.Min(float64(p.PageNums()), float64(page))))
+
 	return page
 }
 
 func (p *Paginator) Pages() []int {
-	if p.pageRange != nil || p.nums <= 0 {
+	if p.pageRange != nil {
 		return p.pageRange
 	}
 
 	pageNums := p.PageNums()
 	currentPage := p.Page()
 
-	// Define the edges based on the current page.
-	startEdge, endEdge := 1, pageNums
-	edgeDisplay := 2
+	pages := make([]int, 0, pageNums)
 
-	// Calculate the window of pages around the current page.
-	startPage := max(startEdge, currentPage-2)
-	endPage := min(currentPage+2, pageNums)
+	// Add the first two pages.
+	pages = append(pages, 1, 2)
 
-	pages := make([]int, 0, endEdge)
-
-	// Always include the start edge pages.
-	for i := startEdge; i <= min(edgeDisplay, pageNums); i++ {
-		pages = append(pages, i)
-	}
-
-	// Use ellipsis to indicate skipped pages between edges and middle pages.
-	if startPage > edgeDisplay+1 {
+	// Add the ellipsis if needed.
+	if currentPage > 5 {
 		pages = append(pages, 0)
 	}
 
 	// Add the window of pages around the current page.
-	for i := max(startPage, edgeDisplay+1); i <= min(endPage, pageNums-edgeDisplay); i++ {
+	for i := max(3, currentPage-3); i <= min(pageNums-2, currentPage+5); i++ {
 		pages = append(pages, i)
 	}
 
-	// Use ellipsis to indicate skipped pages between middle pages and end edge.
-	if endPage < pageNums-edgeDisplay {
+	// Add the ellipsis if needed.
+	if currentPage < pageNums-6 {
 		pages = append(pages, 0)
 	}
 
-	// Always include the end edge pages.
-	for i := max(pageNums-edgeDisplay+1, endPage+1); i <= endEdge; i++ {
-		pages = append(pages, i)
-	}
+	// Add the last two pages.
+	pages = append(pages, pageNums-1, pageNums)
 
 	p.pageRange = pages
 	return p.pageRange
 }
 
 func (p *Paginator) PageLink(page int) string {
-	link, _ := url.ParseRequestURI(p.Request.RequestURI)
-	values := link.Query()
-	if page == 1 {
-		values.Del("p")
-	} else {
-		values.Set("p", strconv.Itoa(page))
-	}
-	link.RawQuery = values.Encode()
-	return strconv.Itoa(page)
+	return fmt.Sprintf(p.LinkFormat, (strconv.Itoa(page)))
 }
 
 func (p *Paginator) PageLinkPrev() (link string) {
@@ -137,18 +114,15 @@ func (p *Paginator) IsActive(page int) bool {
 	return p.Page() == page
 }
 
-// func (p *Paginator) Offset() int {
-// 	return (p.Page() - 1) * p.PerPageNums
-// }
-
 func (p *Paginator) HasPages() bool {
 	return p.PageNums() > 1
 }
 
-func NewPaginator(ctx *context.Context, per int, nums interface{}) *Paginator {
+func NewPaginator(ctx *context.Context, per int, nums interface{}, linkFormat string) *Paginator {
 	p := Paginator{}
-	p.Request = ctx.Request
 	p.Ctx = ctx
+	p.Request = ctx.Request
+	p.LinkFormat = linkFormat
 	if per <= 0 {
 		per = 10
 	}

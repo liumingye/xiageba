@@ -1,18 +1,19 @@
 package main
 
 import (
-	"music/modules/cache"
+	"music/controllers"
+	_ "music/models"
+	_ "music/modules/cache"
+	"music/modules/template"
 	_ "music/routers"
-
-	"music/models"
 
 	beego "github.com/beego/beego/v2/server/web"
 )
 
 func init() {
-	cache.Init()
-	models.Init()
 	beego.BConfig.WebConfig.Session.SessionOn = true
+	template.AddFuncMap()
+	beego.ErrorController(&controllers.ErrorController{})
 }
 
 func main() {

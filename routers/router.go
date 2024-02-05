@@ -7,11 +7,13 @@ import (
 )
 
 func init() {
-	beego.Router("/", &controllers.MainController{})
-	beego.Router("/music/?:id", &controllers.MusicController{})
-	beego.Router("/s/?:text/page/?:page", &controllers.SearchController{})
-	beego.Router("/s/:keyword", &controllers.SearchController{})
-	beego.Router("/s/:keyword/:page", &controllers.SearchController{})
-	beego.Router("/r/yesterday", &controllers.RankController{}, "get:Yesterday")
-	beego.Router("/r/yesterday/:page", &controllers.RankController{}, "get:Yesterday")
+	beego.CtrlGet("/", (*controllers.MainController).Get)
+	beego.CtrlGet("/music/:id([0-9]+)", (*controllers.MusicController).Get)
+	beego.CtrlGet("/s/:text/page/:page([0-9]+)", (*controllers.SearchController).Get)
+	beego.CtrlGet("/s/:keyword(.+)", (*controllers.SearchController).Get)
+	beego.CtrlGet("/s/:keyword(.+)/:page([0-9]+)", (*controllers.SearchController).Get)
+	beego.CtrlGet("/r/yesterday", (*controllers.RankController).Yesterday)
+	beego.CtrlGet("/r/yesterday/:page([0-9]+)", (*controllers.RankController).Yesterday)
+	beego.CtrlGet("/history", (*controllers.HistoryController).Get)
+	beego.CtrlGet("/history/:page([0-9]+)", (*controllers.HistoryController).Get)
 }

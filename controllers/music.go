@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"math/rand"
 	"music/models"
 	"strconv"
 	"strings"
@@ -37,7 +36,7 @@ func (c *MusicController) Get() {
 	// 查询与音乐相关联的标签
 	tagArray := make([]map[string]string, 0)
 	for _, tag := range music.Tags {
-		tagArray = append(tagArray, map[string]string{"name": tag.TagName, "rand": strconv.Itoa(rand.Intn(6) + 1)})
+		tagArray = append(tagArray, map[string]string{"name": tag.TagName})
 	}
 	c.Data["Tags"] = tagArray
 

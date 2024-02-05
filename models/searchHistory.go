@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"time"
 
 	"music/modules/utils"
@@ -20,6 +21,9 @@ func (t *SearchHistory) TableName() string {
 
 // 添加搜索历史记录
 func (t *SearchHistory) AddSearchHistory(searchTerm string) error {
+	if !isValidSearchTerm(searchTerm) {
+		return errors.New("invalid search term")
+	}
 	o := orm.NewOrm()
 	searchHistory := &SearchHistory{
 		SearchTerm:      searchTerm,
@@ -27,6 +31,10 @@ func (t *SearchHistory) AddSearchHistory(searchTerm string) error {
 	}
 	_, err := o.Insert(searchHistory)
 	return err
+}
+
+func isValidSearchTerm(searchTerm string) bool {
+	return utils.HanCounter(searchTerm) <= 50
 }
 
 type SearchRank struct {
@@ -77,14 +85,14 @@ type LatestSearchTerms struct {
 }
 
 // 获取最新搜索词
-func (t *SearchHistory) GetLatestSearchTerms(count int) ([]LatestSearchTerms, error) {
+func (t *SearchHistory) GetLatestSearchTerms(page int, pageSize int) ([]LatestSearchTerms, int, error) {
 	o := orm.NewOrm()
 	var searchTerms []SearchHistory
 
 	// 执行查询
-	_, err := o.QueryTable("search_history").OrderBy("-search_timestamp").Limit(count).All(&searchTerms)
+	_, err := o.QueryTable("search_history").OrderBy("-search_timestamp").Offset((page - 1) * pageSize).Limit(pageSize).All(&searchTerms)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
 	// 将结果转换为所需的类型
@@ -98,5 +106,11 @@ func (t *SearchHistory) GetLatestSearchTerms(count int) ([]LatestSearchTerms, er
 		})
 	}
 
-	return result, nil
+	// Count total number of search terms
+	totalCount, err := o.QueryTable("search_history").Count()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return result, int(totalCount), nil
 }

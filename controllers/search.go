@@ -15,6 +15,13 @@ func (c *SearchController) Get() {
 	keyword := c.Ctx.Input.Param(":keyword")
 	page := c.Ctx.Input.Param(":page")
 
+	keyword = strings.ReplaceAll(keyword, "%", "")
+
+	trimKeyword := strings.TrimSpace(keyword)
+	if trimKeyword == "" {
+		c.Abort("404")
+	}
+
 	if page == "" {
 		// 保存搜索词
 		go (&models.SearchHistory{}).AddSearchHistory(keyword)
@@ -24,11 +31,6 @@ func (c *SearchController) Get() {
 	// 将page转换为整数
 	pageInt, err := strconv.Atoi(page)
 	if err != nil {
-		c.Abort("500")
-	}
-
-	trimKeyword := strings.TrimSpace(keyword)
-	if trimKeyword == "" {
 		c.Abort("500")
 	}
 
@@ -42,7 +44,7 @@ func (c *SearchController) Get() {
 	c.Data["PageSize"] = pageSize
 	c.Data["Total"] = total
 
-	c.SetPaginator(pageSize, total)
+	c.SetPaginator(pageSize, total, "/s/"+keyword+"/%s")
 
 	// 设置模板名称
 	c.TplName = "search.tpl"

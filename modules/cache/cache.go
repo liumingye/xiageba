@@ -9,6 +9,6 @@ var (
 )
 
 // Init initialize the cache instance
-func Init() {
+func init() {
 	Bm, _ = cache.NewCache("file", `{"CachePath":"cache","FileSuffix":".bin","DirectoryLevel":"2","EmbedExpiry":"0"}`)
 }
