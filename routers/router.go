@@ -16,4 +16,6 @@ func init() {
 	beego.CtrlGet("/r/yesterday/:page([0-9]+)", (*controllers.RankController).Yesterday)
 	beego.CtrlGet("/history", (*controllers.HistoryController).Get)
 	beego.CtrlGet("/history/:page([0-9]+)", (*controllers.HistoryController).Get)
+	beego.CtrlGet("/t/:tagname(.+)", (*controllers.TagController).Get)
+	beego.CtrlGet("/t/:tagname(.+)/:page([0-9]+)", (*controllers.TagController).Get)
 }

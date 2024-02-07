@@ -55,30 +55,41 @@ func (p *Paginator) Pages() []int {
 	}
 
 	pageNums := p.PageNums()
-	currentPage := p.Page()
 
-	pages := make([]int, 0, pageNums)
+	var pages []int
 
-	// Add the first two pages.
-	pages = append(pages, 1, 2)
+	if pageNums <= 3 {
+		// If there are 2 or fewer pages, simply return them.
+		for i := 1; i <= pageNums; i++ {
+			pages = append(pages, i)
+		}
+	} else {
 
-	// Add the ellipsis if needed.
-	if currentPage > 5 {
-		pages = append(pages, 0)
+		currentPage := p.Page()
+
+		pages = make([]int, 0, pageNums)
+
+		// Add the first two pages.
+		pages = append(pages, 1, 2)
+
+		// Add the ellipsis if needed.
+		if currentPage > 6 {
+			pages = append(pages, 0)
+		}
+
+		// Add the window of pages around the current page.
+		for i := max(3, currentPage-3); i <= min(pageNums-2, currentPage+5); i++ {
+			pages = append(pages, i)
+		}
+
+		// Add the ellipsis if needed.
+		if currentPage < pageNums-7 {
+			pages = append(pages, 0)
+		}
+
+		// Add the last two pages.
+		pages = append(pages, pageNums-1, pageNums)
 	}
-
-	// Add the window of pages around the current page.
-	for i := max(3, currentPage-3); i <= min(pageNums-2, currentPage+5); i++ {
-		pages = append(pages, i)
-	}
-
-	// Add the ellipsis if needed.
-	if currentPage < pageNums-6 {
-		pages = append(pages, 0)
-	}
-
-	// Add the last two pages.
-	pages = append(pages, pageNums-1, pageNums)
 
 	p.pageRange = pages
 	return p.pageRange

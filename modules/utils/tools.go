@@ -34,7 +34,9 @@ func FormatSecondsAgo(seconds float64) string {
 		{60, 1, "%.0f秒前"},
 		{3600, 60, "%.0f分钟前"},
 		{86400, 3600, "%.0f小时前"},
-		{math.MaxFloat64, 86400, "%.0f天前"}, // 使用math.MaxFloat64作为最后一个阈值
+		{604800, 86400, "%.0f周前"},
+		{2592000, 604800, "%.0f月前"},
+		{math.MaxFloat64, 2592000, "%.0f年前"}, // 使用math.MaxFloat64作为最后一个阈值
 	}
 
 	for _, unit := range timeUnits {

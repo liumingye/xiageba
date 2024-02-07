@@ -41,7 +41,6 @@ func (c *SearchController) Get() {
 	c.Data["Musics"] = musics
 	c.Data["Keyword"] = keyword
 	c.Data["Page"] = page
-	c.Data["PageSize"] = pageSize
 	c.Data["Total"] = total
 
 	c.SetPaginator(pageSize, total, "/s/"+keyword+"/%s")

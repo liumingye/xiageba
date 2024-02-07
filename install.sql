@@ -11,12 +11,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `music` (
   `id` int(11) UNSIGNED NOT NULL,
-  `name` varchar(1000) DEFAULT NULL,
-  `singer` varchar(1000) DEFAULT NULL,
-  `pic` varchar(1000) DEFAULT NULL,
-  `link1` varchar(1000) DEFAULT NULL,
-  `link2` varchar(1000) DEFAULT NULL,
-  `tag` varchar(1000) DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `singer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `pic` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `link1` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `link2` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `lyric` text
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
