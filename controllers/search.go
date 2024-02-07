@@ -44,8 +44,6 @@ func (c *SearchController) Get() {
 	keyword := c.Ctx.Input.Param(":keyword")
 	page := c.Ctx.Input.Param(":page")
 
-	keyword = strings.ReplaceAll(keyword, "%", "")
-
 	trimKeyword := strings.TrimSpace(keyword)
 	if trimKeyword == "" {
 		c.Abort("404")

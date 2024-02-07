@@ -1,6 +1,8 @@
 package models
 
 import (
+	"strings"
+
 	"github.com/beego/beego/v2/client/orm"
 )
 
@@ -21,6 +23,9 @@ func (m *Music) TableName() string {
 
 func (t *Music) FuzzySearchMusic(keyword string, page int, pageSize int) ([]*Music, int, error) {
 	o := orm.NewOrm()
+
+	keyword = strings.ReplaceAll(keyword, "%", "\\%")
+	keyword = strings.ReplaceAll(keyword, "_", "\\_")
 
 	var musics []*Music
 	// Use placeholders for parameters

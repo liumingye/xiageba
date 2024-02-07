@@ -32,7 +32,7 @@
                 {{end}}
                 <div class="d-flex flex-column justify-content-center">
                     <div class="fs-10 pb-2">{{.Music.Name}}</div>
-                    <div class="">{{.Music.Singer}}</div>
+                    <div>{{.Music.Singer}}</div>
                 </div>
             </div>
             <div class="border-top mt-3 pt-3">
