@@ -41,7 +41,7 @@ func (c *RankController) Yesterday() {
 //
 // cacheRankKey, cacheTotalKey string.
 // []models.SearchRank, int.
-func (c *RankController) getRankFromCache(cacheRankKey, cacheTotalKey string) (rank []models.SearchRank, total int) {
+func (c *RankController) getRankFromCache(cacheRankKey, cacheTotalKey string) (rank []*models.SearchRank, total int) {
 	if cache.Bm == nil {
 		return nil, 0
 	}
@@ -50,7 +50,7 @@ func (c *RankController) getRankFromCache(cacheRankKey, cacheTotalKey string) (r
 		return nil, 0
 	}
 	if len(cacheData) == 2 {
-		rank, total = cacheData[0].([]models.SearchRank), cacheData[1].(int)
+		rank, total = cacheData[0].([]*models.SearchRank), cacheData[1].(int)
 	}
 	return
 }
@@ -67,7 +67,7 @@ func (c *RankController) getRankFromCache(cacheRankKey, cacheTotalKey string) (r
 //
 //	[]models.SearchRank - the rank
 //	int - the total
-func (c *RankController) fetchAndCacheRank(page int, cacheRankKey string, cacheTotalKey string) (rank []models.SearchRank, total int) {
+func (c *RankController) fetchAndCacheRank(page int, cacheRankKey string, cacheTotalKey string) (rank []*models.SearchRank, total int) {
 	rank, total, err := (&models.SearchHistory{}).GetSearchRank(page, PageSize, time.Now().AddDate(0, 0, -1), time.Now(), true)
 	if err != nil {
 		c.Abort("500")

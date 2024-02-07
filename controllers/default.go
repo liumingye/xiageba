@@ -35,7 +35,7 @@ func (c *MainController) Get() {
 	c.TplName = "index.tpl"
 }
 
-func (c *MainController) getRankFromCache() ([]models.SearchRank, []models.SearchRank, []models.SearchRank, []models.SearchRank) {
+func (c *MainController) getRankFromCache() ([]*models.SearchRank, []*models.SearchRank, []*models.SearchRank, []*models.SearchRank) {
 	if cache.Bm == nil {
 		return nil, nil, nil, nil
 	}
@@ -46,10 +46,10 @@ func (c *MainController) getRankFromCache() ([]models.SearchRank, []models.Searc
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 		return nil, nil, nil, nil
 	}
-	return yesterdayRank.([]models.SearchRank), thisWeekRank.([]models.SearchRank), thisMonthRank.([]models.SearchRank), lastMonthRank.([]models.SearchRank)
+	return yesterdayRank.([]*models.SearchRank), thisWeekRank.([]*models.SearchRank), thisMonthRank.([]*models.SearchRank), lastMonthRank.([]*models.SearchRank)
 }
 
-func (c *MainController) fetchAndCacheRank() ([]models.SearchRank, []models.SearchRank, []models.SearchRank, []models.SearchRank) {
+func (c *MainController) fetchAndCacheRank() ([]*models.SearchRank, []*models.SearchRank, []*models.SearchRank, []*models.SearchRank) {
 	model := &models.SearchHistory{}
 	f := model.GetSearchRank
 	timeNow := time.Now()

@@ -44,9 +44,9 @@ type SearchRank struct {
 
 // GetSearchRank 根据提供的页面、页面大小、开始日期和结束日期检索搜索排名。
 // 返回SearchRank数组、整数和错误。
-func (t *SearchHistory) GetSearchRank(page, pageSize int, startDate, endDate time.Time, hasTotal bool) ([]SearchRank, int, error) {
+func (t *SearchHistory) GetSearchRank(page, pageSize int, startDate, endDate time.Time, hasTotal bool) ([]*SearchRank, int, error) {
 	o := orm.NewOrm()
-	var searchRanks []SearchRank
+	var searchRanks []*SearchRank
 
 	startString := startDate.Format("2006-01-02")
 	endString := endDate.Format("2006-01-02")

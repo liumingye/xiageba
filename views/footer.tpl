@@ -1,10 +1,11 @@
-<script>
+<script data-no-instant>
 $(".header-search").submit(function () {
     var term = encodeURIComponent($('input[name="keyword"]').val().trim());
     if(term === "") return false;
     location.pathname = "/s/" + term;
     return false;
 })
+InstantClick.init("mousedown")
 </script>
 <div class="footer d-flex justify-content-center">
     <div class="container-sm">
