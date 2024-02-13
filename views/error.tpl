@@ -8,7 +8,7 @@
 <div class="terminal">
 <h1>{{.Title}} <span class="errorcode">{{.Error}}</span></h1>
 <p class="output">{{.Content}}</p>
-<p class="output">Please try <a href="/">Go Home</a></p>
+<p class="output">Please try <a href="javascript:location.reload()">Refresh</a> or <a href="/">Go Home</a></p>
 <p class="output">Good luck</p>
 <p class="output">beego {{.BeegoVersion}} (beego framework)</p>
 <p class="output">golang version: {{.GoVersion}}</p>

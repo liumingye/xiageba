@@ -1,17 +1,22 @@
-<script data-no-instant>
+<script>
 $(".header-search").submit(function () {
     var term = encodeURIComponent($('input[name="keyword"]').val().trim());
     if(term === "") return false;
     location.pathname = "/s/" + term;
     return false;
 })
+</script>
+<script data-no-instant>
 InstantClick.init("mousedown")
 </script>
 <div class="footer d-flex justify-content-center">
     <div class="container-sm">
         <div class="d-flex justify-content-center pb-2">
+            <a href="https://y.qq.com/" target="_blank" class="mx-2">QQ音乐</a>
+            <a href="https://music.163.com/" target="_blank" class="mx-2">网易云音乐</a>
+            <a href="https://www.kuwo.cn/" target="_blank" class="mx-2">酷我音乐</a>
             <a href="https://www.baidu.com/" target="_blank" class="mx-2">百度一下</a>
-            <a href="https://www.baidu.com/" target="_blank" class="mx-2">百度一下</a>
+            <a href="https://github.com/liumingye/xiageba" target="_blank" class="mx-2">GitHub</a>
         </div>
         <div class="text-center fs-7">
             Copyright © 2022-2024 xiageba
