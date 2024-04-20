@@ -16,7 +16,9 @@ InstantClick.init("mousedown")
             <a href="https://music.163.com/" target="_blank" class="mx-2">网易云音乐</a>
             <a href="https://www.kuwo.cn/" target="_blank" class="mx-2">酷我音乐</a>
             <a href="https://www.baidu.com/" target="_blank" class="mx-2">百度一下</a>
-            <a href="https://github.com/liumingye/xiageba" target="_blank" class="mx-2">GitHub</a>
+            <a href="https://github.com/liumingye/xiageba" target="_blank" class="mx-2">
+                <img src="https://badgen.net/github/stars/liumingye/xiageba">
+            </a>
         </div>
         <div class="text-center fs-7">
             Copyright © 2022-2024 xiageba

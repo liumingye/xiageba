@@ -33,7 +33,7 @@ func (c *RankController) Yesterday() {
 	}
 
 	c.Data["Data"] = rank
-	c.SetPaginator(PageSize, total, "/r/%s")
+	c.SetPaginator(PageSize, total, "/r/yesterday/%s")
 	c.TplName = "rank.tpl"
 }
 
