@@ -49,7 +49,15 @@ func (c *SearchController) Get() {
 		c.Abort("404")
 	}
 
-	if page == "" {
+	// 检测是否为爬虫
+	userAgent := strings.ToLower(c.Ctx.Request.UserAgent())
+	isBot := strings.Contains(userAgent, "yandexbot") || 
+	         strings.Contains(userAgent, "baiduspider") || 
+	         strings.Contains(userAgent, "googlebot") || 
+	         strings.Contains(userAgent, "bingbot") || 
+	         strings.Contains(userAgent, "360spider")
+ 
+	if page == "" && !isBot {
 		// 保存搜索词
 		go (&models.SearchHistory{}).AddSearchHistory(keyword)
 		page = "1"
