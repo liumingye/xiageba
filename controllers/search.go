@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 type SearchController struct {
@@ -57,7 +58,7 @@ func (c *SearchController) Get() {
 	         strings.Contains(userAgent, "bingbot") || 
 	         strings.Contains(userAgent, "360spider")
  
-	if page == "" && !isBot {
+	if page == "" && !isBot && utf8.RuneCountInString(trimKeyword) <= 16 {
 		// 保存搜索词
 		go (&models.SearchHistory{}).AddSearchHistory(keyword)
 		page = "1"
