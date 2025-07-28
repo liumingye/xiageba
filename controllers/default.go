@@ -12,6 +12,9 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
+	// 设置缓存头：公共缓存，有效期60秒
+	c.Ctx.Output.Header("Cache-Control", "public, max-age=60")
+
 	// 获取最新搜索词
 	searchHistoryModel := &models.SearchHistory{}
 	latestSearchTerms, _, err := searchHistoryModel.GetLatestSearchTerms(1, 16)
